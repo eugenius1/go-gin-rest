@@ -9,10 +9,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eugenius1/go-gin-rest/internal/albums/storage"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/eugenius1/go-gin-rest/internal/albums/storage"
 )
 
 func TestController_Integration(t *testing.T) {

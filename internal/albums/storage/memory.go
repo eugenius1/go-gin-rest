@@ -1,6 +1,6 @@
 package storage
 
-import "github.com/eugenius1/go-gin-rest/internal/albums/models"
+import models "github.com/eugenius1/go-gin-rest/internal/models/albums"
 
 type memoryStorage struct {
 	albums []models.Album

@@ -1,8 +1,8 @@
 package albums
 
 import (
-	"github.com/eugenius1/go-gin-rest/internal/albums/models"
 	"github.com/eugenius1/go-gin-rest/internal/albums/storage"
+	models "github.com/eugenius1/go-gin-rest/internal/models/albums"
 )
 
 type Service interface {

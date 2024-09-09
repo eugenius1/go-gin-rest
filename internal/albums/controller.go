@@ -3,8 +3,9 @@ package albums
 import (
 	"net/http"
 
-	"github.com/eugenius1/go-gin-rest/internal/albums/models"
 	"github.com/gin-gonic/gin"
+
+	models "github.com/eugenius1/go-gin-rest/internal/models/albums"
 )
 
 type Controller struct {
