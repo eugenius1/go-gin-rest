@@ -1,28 +1,29 @@
 package main
 
 import (
-	"github.com/eugenius1/go-gin-rest/internal"
-	"github.com/eugenius1/go-gin-rest/internal/albums"
-	storage "github.com/eugenius1/go-gin-rest/internal/albums/storage/db"
-	"github.com/eugenius1/go-gin-rest/internal/models"
-	"github.com/eugenius1/go-gin-rest/routes"
 	"github.com/gin-gonic/gin"
+
+	"github.com/eugenius1/go-gin-rest/internal/db"
+	albumrepo "github.com/eugenius1/go-gin-rest/internal/db/repository/album"
+	"github.com/eugenius1/go-gin-rest/internal/http/route"
+	"github.com/eugenius1/go-gin-rest/internal/service"
+	"github.com/eugenius1/go-gin-rest/internal/service/album"
 )
 
 func main() {
 	// Database
-	db, err := models.SetupDBFromEnv("public")
+	db, err := db.SetupFromEnv("public")
 	if err != nil {
 		panic(err)
 	}
 
-	services := internal.Services{
-		Albums: albums.NewService(storage.NewStorage(db)),
+	services := service.Services{
+		Albums: album.NewService(albumrepo.NewRepo(db)),
 	}
 
 	// Router
 	router := gin.Default()
-	routes.RegisterRoutes(router, services)
+	route.RegisterRoutes(router, services)
 
 	err = router.Run("localhost:8080")
 	if err != nil {

@@ -1,4 +1,4 @@
-package albums
+package album
 
 import (
 	"fmt"
@@ -13,14 +13,15 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/eugenius1/go-gin-rest/internal/albums/storage"
+	albumrepo "github.com/eugenius1/go-gin-rest/internal/db/repository/album"
+	"github.com/eugenius1/go-gin-rest/internal/service/album"
 )
 
 func TestController_Integration(t *testing.T) {
 	t.Parallel()
 
-	storage := storage.NewMemoryStorage()
-	service := NewService(storage)
+	repo := albumrepo.NewMemoryRepo()
+	service := album.NewService(repo)
 	c := &Controller{
 		Service: service,
 	}

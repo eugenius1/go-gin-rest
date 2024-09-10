@@ -1,22 +1,22 @@
-package db
+package album
 
 import (
 	"gorm.io/gorm"
 
-	models "github.com/eugenius1/go-gin-rest/internal/models/albums"
+	"github.com/eugenius1/go-gin-rest/internal/models"
 )
 
-type storage struct {
+type repo struct {
 	db *gorm.DB
 }
 
-func NewStorage(db *gorm.DB) *storage {
-	return &storage{
+func NewRepo(db *gorm.DB) *repo {
+	return &repo{
 		db: db,
 	}
 }
 
-func (s *storage) ListAlbums() ([]models.Album, error) {
+func (s *repo) ListAlbums() ([]models.Album, error) {
 	var albums []models.Album
 	if err := s.db.Find(&albums).Error; err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (s *storage) ListAlbums() ([]models.Album, error) {
 	return albums, nil
 }
 
-func (s *storage) GetAlbumByID(id string) (models.Album, error) {
+func (s *repo) GetAlbumByID(id string) (models.Album, error) {
 	album := models.Album{ID: id}
 	if err := s.db.First(&album).Error; err != nil {
 		return models.Album{}, err
@@ -32,6 +32,6 @@ func (s *storage) GetAlbumByID(id string) (models.Album, error) {
 	return album, nil
 }
 
-func (s *storage) CreateAlbum(album models.Album) error {
+func (s *repo) CreateAlbum(album models.Album) error {
 	return s.db.Create(&album).Error
 }

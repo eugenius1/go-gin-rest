@@ -1,12 +1,8 @@
-package albums
+package models
 
 import (
 	"gorm.io/gorm"
 )
-
-var All = []any{
-	&Album{},
-}
 
 // Album represents data about a record Album.
 type Album struct {

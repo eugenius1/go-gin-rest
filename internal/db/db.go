@@ -1,4 +1,4 @@
-package models
+package db
 
 import (
 	"fmt"
@@ -7,9 +7,11 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+
+	"github.com/eugenius1/go-gin-rest/internal/models"
 )
 
-func SetupDBFromEnv(schemaName string) (*gorm.DB, error) {
+func SetupFromEnv(schemaName string) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
 		"user=%s password=%s host=%s port=%s dbname=%s sslmode=%s search_path=%s",
 		os.Getenv("POSTGRES_USER"),
@@ -21,10 +23,10 @@ func SetupDBFromEnv(schemaName string) (*gorm.DB, error) {
 		schemaName,
 	)
 
-	return SetupDB(dsn, schemaName)
+	return Setup(dsn, schemaName)
 }
 
-func SetupDB(dsn, schemaName string) (*gorm.DB, error) {
+func Setup(dsn, schemaName string) (*gorm.DB, error) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix: schemaName + ".",
@@ -38,7 +40,7 @@ func SetupDB(dsn, schemaName string) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err := db.AutoMigrate(All()...); err != nil {
+	if err := db.AutoMigrate(models.AllInDB()...); err != nil {
 		return nil, err
 	}
 

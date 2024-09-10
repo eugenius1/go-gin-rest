@@ -1,4 +1,4 @@
-package db
+package album
 
 import (
 	"testing"
@@ -8,17 +8,17 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	db "github.com/eugenius1/go-gin-rest/internal/models"
-	models "github.com/eugenius1/go-gin-rest/internal/models/albums"
+	"github.com/eugenius1/go-gin-rest/internal/db"
+	"github.com/eugenius1/go-gin-rest/internal/models"
 )
 
-func Test_storage_Album(t *testing.T) {
+func Test_repo(t *testing.T) {
 	t.Parallel()
 
-	db, err := db.SetupDBFromEnv("test_albums")
+	db, err := db.SetupFromEnv("test_albums")
 	require.NoError(t, err)
 
-	s := NewStorage(db)
+	s := NewRepo(db)
 
 	album := models.Album{
 		ID:     ulid.Make().String(),
@@ -40,4 +40,8 @@ func Test_storage_Album(t *testing.T) {
 	assert.True(t, got.CreatedAt.After(creation))
 	assert.True(t, got.UpdatedAt.After(creation))
 	assert.False(t, got.DeletedAt.Valid)
+
+	albums, err := s.ListAlbums()
+	require.NoError(t, err)
+	assert.GreaterOrEqual(t, len(albums), 1)
 }

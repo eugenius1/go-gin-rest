@@ -1,18 +1,19 @@
-package albums
+package album
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
-	models "github.com/eugenius1/go-gin-rest/internal/models/albums"
+	"github.com/eugenius1/go-gin-rest/internal/models"
+	"github.com/eugenius1/go-gin-rest/internal/service/album"
 )
 
 type Controller struct {
-	Service Service
+	Service album.Service
 }
 
-func NewController(service Service) *Controller {
+func NewController(service album.Service) *Controller {
 	return &Controller{
 		Service: service,
 	}

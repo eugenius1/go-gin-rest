@@ -1,13 +1,15 @@
-package storage
+package album
 
-import models "github.com/eugenius1/go-gin-rest/internal/models/albums"
+import (
+	"github.com/eugenius1/go-gin-rest/internal/models"
+)
 
-type memoryStorage struct {
+type memoryRepo struct {
 	albums []models.Album
 }
 
-func NewMemoryStorage() Storage {
-	return &memoryStorage{
+func NewMemoryRepo() *memoryRepo {
+	return &memoryRepo{
 		albums: []models.Album{
 			{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
 			{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
@@ -16,11 +18,11 @@ func NewMemoryStorage() Storage {
 	}
 }
 
-func (s *memoryStorage) ListAlbums() ([]models.Album, error) {
+func (s *memoryRepo) ListAlbums() ([]models.Album, error) {
 	return s.albums, nil
 }
 
-func (s *memoryStorage) GetAlbumByID(id string) (models.Album, error) {
+func (s *memoryRepo) GetAlbumByID(id string) (models.Album, error) {
 	for _, a := range s.albums {
 		if a.ID == id {
 			return a, nil
@@ -29,7 +31,7 @@ func (s *memoryStorage) GetAlbumByID(id string) (models.Album, error) {
 	return models.Album{}, nil
 }
 
-func (s *memoryStorage) CreateAlbum(album models.Album) error {
+func (s *memoryRepo) CreateAlbum(album models.Album) error {
 	s.albums = append(s.albums, album)
 	return nil
 }
