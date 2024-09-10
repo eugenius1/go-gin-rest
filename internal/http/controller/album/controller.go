@@ -7,6 +7,7 @@ import (
 
 	"github.com/eugenius1/go-gin-rest/internal/models"
 	"github.com/eugenius1/go-gin-rest/internal/service/album"
+	"github.com/eugenius1/go-gin-rest/pkg/id"
 )
 
 type Controller struct {
@@ -42,6 +43,10 @@ func (c *Controller) postAlbums(ctx *gin.Context) {
 	if err := ctx.BindJSON(&newAlbum); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	if newAlbum.ID == "" {
+		newAlbum.ID = id.New()
 	}
 
 	if err := c.Service.CreateAlbum(newAlbum); err != nil {

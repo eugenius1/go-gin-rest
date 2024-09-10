@@ -4,12 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oklog/ulid/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/eugenius1/go-gin-rest/internal/db"
 	"github.com/eugenius1/go-gin-rest/internal/models"
+	"github.com/eugenius1/go-gin-rest/pkg/id"
 )
 
 func Test_repo(t *testing.T) {
@@ -21,7 +21,7 @@ func Test_repo(t *testing.T) {
 	s := NewRepo(db)
 
 	album := models.Album{
-		ID:     ulid.Make().String(),
+		ID:     id.New(),
 		Title:  "Test Title",
 		Artist: "Test Artist",
 		Price:  9.99,
