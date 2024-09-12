@@ -8,6 +8,7 @@ type memoryRepo struct {
 	albums []models.Album
 }
 
+// Deprecated.
 func NewMemoryRepo() *memoryRepo {
 	return &memoryRepo{
 		albums: []models.Album{
@@ -18,12 +19,12 @@ func NewMemoryRepo() *memoryRepo {
 	}
 }
 
-func (s *memoryRepo) ListAlbums() ([]models.Album, error) {
-	return s.albums, nil
+func (r *memoryRepo) ListAlbums() ([]models.Album, error) {
+	return r.albums, nil
 }
 
-func (s *memoryRepo) GetAlbumByID(id string) (models.Album, error) {
-	for _, a := range s.albums {
+func (r *memoryRepo) GetAlbumByID(id string) (models.Album, error) {
+	for _, a := range r.albums {
 		if a.ID == id {
 			return a, nil
 		}
@@ -31,7 +32,7 @@ func (s *memoryRepo) GetAlbumByID(id string) (models.Album, error) {
 	return models.Album{}, nil
 }
 
-func (s *memoryRepo) CreateAlbum(album models.Album) error {
-	s.albums = append(s.albums, album)
+func (r *memoryRepo) CreateAlbum(album models.Album) error {
+	r.albums = append(r.albums, album)
 	return nil
 }

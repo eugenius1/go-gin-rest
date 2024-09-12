@@ -13,20 +13,25 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/eugenius1/go-gin-rest/internal/db"
 	albumrepo "github.com/eugenius1/go-gin-rest/internal/db/repository/album"
 	"github.com/eugenius1/go-gin-rest/internal/service/album"
+	"github.com/eugenius1/go-gin-rest/pkg/id"
 )
 
 func TestController_Integration(t *testing.T) {
 	t.Parallel()
 
-	repo := albumrepo.NewMemoryRepo()
+	db, err := db.SetupFromEnv("test_http_album")
+	require.NoError(t, err)
+
+	repo := albumrepo.NewRepo(db)
 	service := album.NewService(repo)
 	c := &Controller{
 		Service: service,
 	}
 
-	objID := "4"
+	objID := id.New()
 	objJSON := fmt.Sprintf(`{"id":"%s","title":"Title","artist":"Artist","price":9.99}`, objID)
 
 	t.Run("postAlbums", func(t *testing.T) {

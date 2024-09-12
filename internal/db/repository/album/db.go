@@ -16,22 +16,22 @@ func NewRepo(db *gorm.DB) *repo {
 	}
 }
 
-func (s *repo) ListAlbums() ([]models.Album, error) {
+func (r *repo) ListAlbums() ([]models.Album, error) {
 	var albums []models.Album
-	if err := s.db.Find(&albums).Error; err != nil {
+	if err := r.db.Find(&albums).Error; err != nil {
 		return nil, err
 	}
 	return albums, nil
 }
 
-func (s *repo) GetAlbumByID(id string) (models.Album, error) {
+func (r *repo) GetAlbumByID(id string) (models.Album, error) {
 	album := models.Album{ID: id}
-	if err := s.db.First(&album).Error; err != nil {
+	if err := r.db.First(&album).Error; err != nil {
 		return models.Album{}, err
 	}
 	return album, nil
 }
 
-func (s *repo) CreateAlbum(album models.Album) error {
-	return s.db.Create(&album).Error
+func (r *repo) CreateAlbum(album models.Album) error {
+	return r.db.Create(&album).Error
 }

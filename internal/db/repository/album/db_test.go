@@ -15,10 +15,10 @@ import (
 func Test_repo(t *testing.T) {
 	t.Parallel()
 
-	db, err := db.SetupFromEnv("test_albums")
+	db, err := db.SetupFromEnv("test_album")
 	require.NoError(t, err)
 
-	s := NewRepo(db)
+	r := NewRepo(db)
 
 	album := models.Album{
 		ID:     id.New(),
@@ -28,10 +28,10 @@ func Test_repo(t *testing.T) {
 	}
 
 	creation := time.Now()
-	err = s.CreateAlbum(album)
+	err = r.CreateAlbum(album)
 	require.NoError(t, err)
 
-	got, err := s.GetAlbumByID(album.ID)
+	got, err := r.GetAlbumByID(album.ID)
 	require.NoError(t, err)
 	assert.Equal(t, album.ID, got.ID)
 	assert.Equal(t, album.Title, got.Title)
@@ -41,7 +41,7 @@ func Test_repo(t *testing.T) {
 	assert.True(t, got.UpdatedAt.After(creation))
 	assert.False(t, got.DeletedAt.Valid)
 
-	albums, err := s.ListAlbums()
+	albums, err := r.ListAlbums()
 	require.NoError(t, err)
 	assert.GreaterOrEqual(t, len(albums), 1)
 }
