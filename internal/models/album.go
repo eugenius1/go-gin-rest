@@ -9,7 +9,7 @@ import (
 // Album represents data about a record Album.
 type Album struct {
 	ID        string         `json:"id" gorm:"primarykey"`
-	CreatedAt time.Time      `json:"-"`
+	CreatedAt time.Time      `json:"-" gorm:"<-:create"`
 	UpdatedAt time.Time      `json:"-"`
 	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 

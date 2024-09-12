@@ -24,7 +24,9 @@ func (c *Controller) RegisterRoutes(router gin.IRouter) {
 	router = router.Group("/albums")
 	router.GET("/", c.getAlbums)
 	router.POST("/", c.postAlbums)
+	router.PUT("/", c.updateAlbum)
 	router.GET("/:id", c.getAlbumByID)
+	router.DELETE("/:id", c.deleteAlbum)
 }
 
 func (c *Controller) getAlbums(ctx *gin.Context) {
@@ -76,4 +78,40 @@ func (c *Controller) getAlbumByID(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, album)
+}
+
+func (c *Controller) updateAlbum(ctx *gin.Context) {
+	var updatedAlbum models.Album
+
+	if err := ctx.BindJSON(&updatedAlbum); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if updatedAlbum.ID == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+		return
+	}
+
+	if err := c.Service.UpdateAlbum(updatedAlbum); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedAlbum)
+}
+
+func (c *Controller) deleteAlbum(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+		return
+	}
+
+	if err := c.Service.DeleteAlbum(id); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusNoContent, nil)
 }

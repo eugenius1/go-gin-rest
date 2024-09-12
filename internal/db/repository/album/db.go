@@ -1,6 +1,8 @@
 package album
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 
 	"github.com/eugenius1/go-gin-rest/internal/models"
@@ -34,4 +36,15 @@ func (r *repo) GetAlbumByID(id string) (models.Album, error) {
 
 func (r *repo) CreateAlbum(album models.Album) error {
 	return r.db.Create(&album).Error
+}
+
+func (r *repo) UpdateAlbum(album models.Album) error {
+	// override input value
+	album.UpdatedAt = time.Now()
+	return r.db.Model(&album).Updates(&album).Error
+}
+
+func (r *repo) DeleteAlbum(id string) error {
+	album := models.Album{ID: id}
+	return r.db.Delete(&album).Error
 }
