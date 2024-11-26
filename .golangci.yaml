@@ -1,0 +1,22 @@
+run:
+  timeout: 5m
+
+output:
+  sort-results: true
+
+# See https://golangci-lint.run/usage/linters/
+linters:
+  presets:
+    - bugs
+
+linters-settings:
+  testifylint:
+    # Enable all checkers (https://github.com/Antonboom/testifylint#checkers).
+    # Default: false
+    enable-all: true
+    # Disable checkers by name
+    # (in addition to default
+    #   suite-thelper
+    # ).
+    disable:
+      - float-compare
