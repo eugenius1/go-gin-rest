@@ -26,3 +26,4 @@ TODO:
 - [ ] OpenAPI/Swagger
 - [ ] API request examples in the repo with [Bruno](https://www.usebruno.com/)
 - [ ] Mock generation from interfaces
+- [ ] Add unit tests
